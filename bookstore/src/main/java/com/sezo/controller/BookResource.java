@@ -3,6 +3,7 @@ package com.sezo.controller;
 import com.sezo.Book;
 import com.sezo.service.BookService;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.Min;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -37,7 +38,7 @@ public class BookResource {
 
     @GET
     @Path("/{id}")
-    public Response getBookById(@PathParam("id") Long id) {
+    public Response getBookById(@PathParam("id") @Min(1) Long id) {
         Book book = service.findBook(id);
         if (book == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
@@ -69,7 +70,7 @@ public class BookResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteBookById(@PathParam("id") Long id) {
+    public Response deleteBookById(@PathParam("id")  @Min(1) Long id) {
 
         service.deleteBook(id);
         return Response.noContent().build();
