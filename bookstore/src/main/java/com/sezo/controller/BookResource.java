@@ -1,11 +1,15 @@
-package com.sezo;
+package com.sezo.controller;
 
+import com.sezo.Book;
+import com.sezo.service.BookService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Path("/api/books")
@@ -13,10 +17,15 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class BookResource {
 
+    @Inject
+    BookService service;
+
+    @Inject
+    UriInfo uriInfo;
 
     @GET
     public Response getAllBooks() {
-        List<Book> books = new ArrayList<>();
+        List<Book> books = service.findAll();
 
         if (books.isEmpty()) {
             return Response.noContent().build();
@@ -29,7 +38,7 @@ public class BookResource {
     @GET
     @Path("/{id}")
     public Response getBookById(@PathParam("id") Long id) {
-        Book book = null;
+        Book book = service.findBook(id);
         if (book == null) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
@@ -41,7 +50,7 @@ public class BookResource {
     @Path("/count")
     @Produces(MediaType.TEXT_PLAIN)
     public Response count() {
-        long noBooks = 0;
+        long noBooks = service.countAllBook();
         if (noBooks == 0)
             return Response.noContent().build();
 
@@ -52,8 +61,8 @@ public class BookResource {
     @POST
     public Response createBook(Book book) throws URISyntaxException {
         book.setId(1L);
-        URI createdURI = new URI(book.getId().toString());
-
+        URI createdURI = uriInfo.getAbsolutePathBuilder().path(book.getId().toString()).build();
+        book = service.createBook(book);
         return Response.created(createdURI).entity(book).build();
     }
 
@@ -62,7 +71,7 @@ public class BookResource {
     @Path("/{id}")
     public Response deleteBookById(@PathParam("id") Long id) {
 
-        //Delete  book from the database
+        service.deleteBook(id);
         return Response.noContent().build();
     }
 
