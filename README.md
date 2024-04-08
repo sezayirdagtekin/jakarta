@@ -54,6 +54,8 @@ Start the server
 ```bash
   ./mvnw  quarkus:dev
 ```
+### UI
+http://localhost:8080/index.xhtml
 
 ### Dev UI > Open Api
 http://localhost:8080/q/dev-ui/
