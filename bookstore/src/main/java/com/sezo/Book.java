@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 @Table(name = "T_BOOK")
 @Getter
 @Setter
+@Schema(name = "Book",description = "Pojo that represents a Book")
 public class Book {
 
     @Id
