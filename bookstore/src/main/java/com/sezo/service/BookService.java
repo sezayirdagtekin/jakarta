@@ -4,6 +4,7 @@ import com.sezo.Book;
 import com.sezo.utility.IsbnGenerator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @ApplicationScoped
 @Transactional(Transactional.TxType.SUPPORTS)
+@Named
 public class BookService {
 
     @Inject
